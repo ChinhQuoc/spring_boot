@@ -25,39 +25,36 @@ public class ArticleController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> saveArticle(@RequestParam String title, @RequestParam String content, @RequestParam Date startDate, @RequestParam int idAuthor) {
+    public ResponseEntity<String> saveArticle(@RequestBody ArticleEntity newArticle) {
         ArticleEntity article = new ArticleEntity();
-        article.setTitle(title);
-        article.setContent(content);
-        article.setStartDate(startDate);
-        article.setIdAuthor(idAuthor);
+        article.setTitle(newArticle.getTitle());
+        article.setContent(newArticle.getContent());
+        article.setStartDate(newArticle.getStartDate());
+        article.setIdAuthor(newArticle.getIdAuthor());
 
         articleRepository.save(article);
 
-        return new ResponseEntity<>("Tạo bài viết thành công", HttpStatus.OK);
+        return new ResponseEntity<String>("Tạo bài viết thành công", HttpStatus.OK);
     }
 
     @PutMapping("")
-    public ResponseEntity<?> updateArticle(@RequestParam int id, @RequestParam String title, @RequestParam String content, @RequestParam Date startDate, @RequestParam int idAuthor) {
+    public ResponseEntity<String> updateArticle(@RequestBody ArticleEntity oldArticle) {
         ArticleEntity article = new ArticleEntity();
-        article.setId(id);
-        article.setTitle(title);
-        article.setContent(content);
-        article.setStartDate(startDate);
-        article.setIdAuthor(idAuthor);
+        article.setId(oldArticle.getId());
+        article.setTitle(oldArticle.getTitle());
+        article.setContent(oldArticle.getContent());
+        article.setStartDate(oldArticle.getStartDate());
+        article.setIdAuthor(oldArticle.getIdAuthor());
 
         articleRepository.save(article);
 
-        return new ResponseEntity<>("Cập nhật bài viết thành công", HttpStatus.OK);
+        return new ResponseEntity<String>("Cập nhật bài viết thành công", HttpStatus.OK);
     }
 
     @DeleteMapping("")
-    public ResponseEntity<?> deleteArticle(@RequestParam int id) {
-        ArticleEntity article = new ArticleEntity();
-        article.setId(id);
+    public ResponseEntity<String> deleteArticle(@RequestParam int id) {
+        articleRepository.deleteById(id);
 
-        articleRepository.delete(article);
-
-        return new ResponseEntity<>("Xóa bài viết thành công", HttpStatus.OK);
+        return new ResponseEntity<String>("Xóa bài viết thành công", HttpStatus.OK);
     }
 }

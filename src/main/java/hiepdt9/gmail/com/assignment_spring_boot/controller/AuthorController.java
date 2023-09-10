@@ -24,37 +24,34 @@ public class AuthorController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> saveAuthors(@RequestParam String authorName, @RequestParam String fullName, @RequestParam int gender) {
+    public ResponseEntity<String> saveAuthors(@RequestBody AuthorEntity newAuthor) {
         AuthorEntity author = new AuthorEntity();
-        author.setAuthorName(authorName);
-        author.setFullName(fullName);
-        author.setGender(gender);
+        author.setAuthorName(newAuthor.getAuthorName());
+        author.setFullName(newAuthor.getFullName());
+        author.setGender(newAuthor.getGender());
 
         authorRepository.save(author);
 
-        return new ResponseEntity<>("Tạo tác giả thành công", HttpStatus.OK);
+        return new ResponseEntity<String>("Tạo tác giả thành công", HttpStatus.OK);
     }
 
     @PutMapping("")
-    public ResponseEntity<?> updateAuthors(@RequestParam int id, @RequestParam String authorName, @RequestParam String fullName, @RequestParam int gender) {
+    public ResponseEntity<String> updateAuthors(@RequestBody AuthorEntity oldAuthor) {
         AuthorEntity author = new AuthorEntity();
-        author.setId(id);
-        author.setAuthorName(authorName);
-        author.setFullName(fullName);
-        author.setGender(gender);
+        author.setId(oldAuthor.getId());
+        author.setAuthorName(oldAuthor.getAuthorName());
+        author.setFullName(oldAuthor.getFullName());
+        author.setGender(oldAuthor.getGender());
 
         authorRepository.save(author);
 
-        return new ResponseEntity<>("Cập nhật tác giả thành công", HttpStatus.OK);
+        return new ResponseEntity<String>("Cập nhật tác giả thành công", HttpStatus.OK);
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteAuthors(@RequestParam int id) {
-        AuthorEntity author = new AuthorEntity();
-        author.setId(id);
+    @DeleteMapping("")
+    public ResponseEntity<String> deleteAuthors(@RequestParam int id) {
+        authorRepository.deleteById(id);
 
-        authorRepository.save(author);
-
-        return new ResponseEntity<>("Xóa tác giả thành công", HttpStatus.OK);
+        return new ResponseEntity<String>("Xóa tác giả thành công", HttpStatus.OK);
     }
 }
